@@ -22,7 +22,6 @@ print(img.shape)
 print(x_max,y_max)
 
 
-
 # imports
 
 
@@ -40,11 +39,17 @@ def ray_coord(coord,o):
     coord_lst = []
     if abs(o) < np.pi/2:
         for i in range(x+1,x_max):
-            coord_lst.append([i,y+int((i-x)*np.tan(o))])
+            temp_y = y+int((i-x)*np.tan(o))
+            if temp_y >= y_max:
+                break
+            coord_lst.append([i,temp_y])
     else:
         for i in range(0,x):
-            coord_lst.append([i,y-1+int((x-i)*np.tan(o))])
-		coord_lst = coord_lst[::-1]
+            temp_y = y-1+int((x-i)*np.tan(o))
+            if temp_y < 0:
+                break
+            coord_lst.append([i,temp_y])
+        coord_lst = coord_lst[::-1]
     return np.array(coord_lst)
 
 ray_coord([10,10],0.7857) #45deg
@@ -57,7 +62,6 @@ def ray_hit(coord,o):
     x, y = coord
     coord_lst = ray_coord([x,y],o)
     for i, val in enumerate(coord_lst):
-        #print(img[val[0],val[1]])
         if img[val[0],val[1]] != 255: # 255 = White in 8bit Binary_Image
             ans = img[val[0],val[1]]
             break
@@ -67,4 +71,16 @@ def ray_hit(coord,o):
 	
 a=ray_hit([10,10],2.357) #135
 a=ray_hit([10,10],0.7857) #45
+
+
+def angle_view(coord,o_range,o_res):
+    # returns array of first coloured pixel value for theta limits.
+    # o_res = scale_resolution ie. 360*x
+    o_min, o_max = o_range # min & max - convention should be followed always
+    out = []
+    for theta in np.linspace(o_min,o_max,(o_max-o_min)*100*o_res):
+        out.append(ray_hit(coord,theta))
+    return np.array(out)
+	
+a=angle_view([10,10],[0.7857,2.357],0.1) #some_error_???
 
