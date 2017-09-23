@@ -7,6 +7,20 @@ print("Hello 2D world")
 # IMP Notes
 """global variables"""
 #img, x_max, y_max
+from scipy import ndimage
+import matplotlib.pyplot as plt
+
+img_file = "im1.png"
+img = ndimage.imread(img_file, mode = "L")
+x_max, y_max = img.shape[0], img.shape[1]
+
+
+plt.imshow(img)
+plt.show()
+
+print(img.shape)
+print(x_max,y_max)
+
 
 
 # imports
