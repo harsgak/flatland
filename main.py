@@ -30,7 +30,7 @@ def ray_coord(coord,o):
     else:
         for i in range(0,x):
             coord_lst.append([i,y-1+int((x-i)*np.tan(o))])
-		coord_lst = coord_lst[::-1]
+        coord_lst = coord_lst[::-1]
     return np.array(coord_lst)
 
 ray_coord([10,10],0.7857) #45deg
@@ -50,7 +50,7 @@ def ray_hit(coord,o):
         else:
             ans = 255
     return ans
-	
+
 a=ray_hit([10,10],2.357) #135
 a=ray_hit([10,10],0.7857) #45
 
