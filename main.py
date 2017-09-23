@@ -68,7 +68,7 @@ def ray_hit(coord,o):
         else:
             ans = 255
     return ans
-	
+
 a=ray_hit([10,10],2.357) #135
 a=ray_hit([10,10],0.7857) #45
 
