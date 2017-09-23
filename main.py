@@ -4,6 +4,11 @@
 print("Hello 2D world")
 
 
+# IMP Notes
+"""global variables"""
+#img, x_max, y_max
+
+
 # imports
 
 
