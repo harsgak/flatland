@@ -1,32 +1,32 @@
 #flatland
 
 
-print("Hello 2D world")
+# Imports
 
 
-# IMP Notes
-"""global variables"""
-#img, x_max, y_max
-from scipy import ndimage
+import numpy as np
+import scipy.ndimage as ndimage
 import matplotlib.pyplot as plt
+from numba import autojit
 
-img_file = "im1.png"
+
+# Global variables 
+## global items: img, x_max, y_max, DEBUG
+
+
+img_file = "cut-ring.png"
 img = ndimage.imread(img_file, mode = "L")
 x_max, y_max = img.shape[0], img.shape[1]
+DEBUG=True
 
 
-plt.imshow(img)
+# Init Script
+
+
+plt.imshow(img,origin='lower')
 plt.show()
-
 print(img.shape)
 print(x_max,y_max)
-
-
-# imports
-
-
-from numba import autojit
-import numpy as np
 
 
 # Functions
@@ -122,6 +122,7 @@ def angle_view(coord,theta_range,theta_res):
     return np.array(out)
 	
 a=angle_view([10,10],[0,2*np.pi],0.1)
+
 
 def showview(t=0, pos=[0,0], theta=np.pi/4, theta_res=1, AOV=2*np.pi/3, layout='strip'):
     """
