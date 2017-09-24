@@ -120,7 +120,7 @@ def angle_view(coord,theta_range,theta_res):
     n_points = int((theta_max-theta_min)*(180/np.pi)*theta_res)
     for theta in np.linspace(theta_min,theta_max,n_points):
         out.append(ray_hit(coord,theta))
-    return np.array(out)
+    return np.array(out).reshape(1,-1)
 	
 a=angle_view([10,10],[0,2*np.pi],0.1).reshape(1,-1)
 
