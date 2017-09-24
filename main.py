@@ -150,3 +150,13 @@ def showview(t=0, pos=[0,0], theta=np.pi/4, fig=None, ax=None, theta_res=1, AOV=
     return fig, ax
 
 showview(pos=[2,2]);plt.show()
+
+
+def draw_ray(pos, theta, img, ax=None, color=128):
+    #Note: This draws directly onto image. Does not copy automatically. So pass a copy if required.
+    if not ax:
+        fig,ax = plt.subplots()
+    diagonalxs, diagonalys =  ray_coords_dda(pos, theta).T
+    #print (diagonalxs, diagonalys)
+    img [diagonalxs, diagonalys] = color
+    ax.imshow(img, origin='lower');plt.show()
