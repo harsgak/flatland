@@ -123,3 +123,25 @@ def angle_view(coord,theta_range,theta_res):
 	
 a=angle_view([10,10],[0,2*np.pi],0.1)
 
+def showview(t=0, pos=[0,0], theta=np.pi/4, theta_res=1, AOV=2*np.pi/3, layout='strip'):
+    """
+    pos=[x,y] | must be inside image bounds
+    theta     | angle(in radians) at which flatlander views.
+    theta_res | no of vision cells per unit degree
+    AOV       | angle of vision (in radiians)
+    
+    """
+    theta_min, theta_max = theta - AOV/2, theta + AOV/2    #AOV = angle of vision
+    theta_range = [theta_min, theta_max]
+    view = angle_view(pos,theta_range,theta_res)
+    if layout=='strip':
+        fig = plt.figure()
+        ax = fig.add_axes([0, 0, 1, 1])    #Full window
+        ax.axis('off')    #no-ticks
+        if DEBUG:
+            ax = fig.add_subplot(111) #Default axes with ticks etc.
+            ax.axis('on')
+            pass
+        extent= [np.rad2deg(theta_min),np.rad2deg(theta_max),-0.5,0.5]
+        plt.imshow(view, aspect=theta_res, origin = 'lower', extent=extent)
+    return fig, ax
