@@ -52,6 +52,46 @@ def ray_coord(coord,theta):
         coord_lst = coord_lst[::-1]
     return np.array(coord_lst)
 
+
+@autojit(nopython=False)
+def ray_coord_dda(pos,theta):
+    """
+      \2|1/
+      3\|/0
+     ---+---
+      4/|\7
+      /5|6\
+    """
+    #digital differential analyzer algo
+    x0,y0 = pos
+    m=np.tan(theta)
+    pi = np.pi
+    theta = theta%(2*pi)
+    coord_lst=[]
+    if  0 <= theta < pi/4 : # Octant 0
+        for i,x in enumerate(range(x0,x_max)):
+            y = int(y0+i*m)
+            coord_lst.append([x,y])
+    elif pi/4 <= theta < 3*pi/4 : # Octant 1,2
+        for i,y in enumerate(range(y0,y_max)):
+            x = int(x0+i*1/m)
+            coord_lst.append([x,y])
+    elif 3*pi/4 <= theta < 5*pi/4 : # Octant 3,4
+        for i,x in enumerate(range(x0,0,-1)):
+            y = int(x0+i*m)
+            coord_lst.append([x,y])
+    elif 5*pi/4 <= theta < 7*pi/4 : # Octant 5,6
+        for i,y in enumerate(range(y0,0,-1)):
+            x = int(y0+i*1/m)
+            coord_lst.append([x,y])
+    elif 7*pi/4 <= theta < 2*pi : #Octant 7
+        for i,x in enumerate(range(x0,x_max)):
+            y = int(y0+i*m)
+            coord_lst.append([x,y])
+    
+    return np.array(coord_lst)
+        
+
 ray_coord([10,10],0.7857) #45deg
 ray_coord([10,10],2.3571) #135deg
 
