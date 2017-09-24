@@ -92,15 +92,15 @@ def ray_coord_dda(pos,theta):
     return np.array(coord_lst)
         
 
-ray_coord([10,10],0.7857) #45deg
-ray_coord([10,10],2.3571) #135deg
+ray_coords_dda([10,10],0.7857) #45deg
+ray_coords_dda([10,10],2.3571) #135deg
 
 
 #@autojit(nopython=False)
 def ray_hit(coord,theta):
     # retruns first coloured pixel value.
     x, y = coord
-    coord_lst = ray_coord([x,y],theta)
+    coord_lst = ray_coords_dda([x,y],theta)
     ans = 255    #default value
     for i, val in enumerate(coord_lst):
         if img[val[0],val[1]] != 255: # 255 = White in 8bit Binary_Image
@@ -124,7 +124,7 @@ def angle_view(coord,theta_range,theta_res):
 a=angle_view([10,10],[0,2*np.pi],0.1)
 
 
-def showview(t=0, pos=[0,0], theta=np.pi/4, theta_res=1, AOV=2*np.pi/3, layout='strip'):
+def showview(t=0, pos=[0,0], theta=np.pi/4, fig=None, ax=None, theta_res=1, AOV=2*np.pi/3, layout='strip'):
     """
     pos=[x,y] | must be inside image bounds
     theta     | angle(in radians) at which flatlander views.
@@ -136,13 +136,17 @@ def showview(t=0, pos=[0,0], theta=np.pi/4, theta_res=1, AOV=2*np.pi/3, layout='
     theta_range = [theta_min, theta_max]
     view = angle_view(pos,theta_range,theta_res)
     if layout=='strip':
-        fig = plt.figure()
-        ax = fig.add_axes([0, 0, 1, 1])    #Full window
-        ax.axis('off')    #no-ticks
+        if not fig:
+            fig = plt.figure()
+        if not ax:
+            ax = fig.add_axes([0, 0, 1, 1])    #Full window
+            ax.axis('off')    #no-ticks
         if DEBUG:
             ax = fig.add_subplot(111) #Default axes with ticks etc.
             ax.axis('on')
             pass
         extent= [np.rad2deg(theta_min),np.rad2deg(theta_max),-0.5,0.5]
-        plt.imshow(view, aspect=theta_res, origin = 'lower', extent=extent)
+        plt.imshow(view, aspect=1, origin = 'lower', extent=extent)
     return fig, ax
+
+showview(pos=[2,2]);plt.show()
